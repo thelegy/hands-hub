@@ -1,0 +1,15 @@
+[package]
+name = "input_events"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["std", "evdev"]
+std = []
+defmt = ["dep:defmt"]
+evdev = ["dep:evdev"]
+
+[dependencies]
+defmt = { version = "0.3.8", optional = true }
+evdev = { version = "0.12.2", optional = true }
+serde = { version = "1.0.210", features = ["derive"], default-features = false }

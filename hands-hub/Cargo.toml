@@ -1,0 +1,14 @@
+[package]
+edition = "2021"
+name = "hands-hub"
+version = "0.1.0"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+
+[dependencies]
+evdev = { version = "0.12.2", features = ["tokio"] }
+input_events = { path = "../input_events" }
+postcard = { version = "1.0.10", default-features = false, features = ["use-std"] }
+thiserror = "1.0.63"
+tokio = { version = "1.40.0", features = ["macros", "rt", "rt-multi-thread"] }
+tokio-serial = "5.4.4"
