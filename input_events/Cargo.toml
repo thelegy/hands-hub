@@ -1,6 +1,5 @@
 [package]
 name = "input_events"
-version = "0.1.0"
 edition = "2021"
 
 [features]
@@ -12,4 +11,11 @@ evdev = ["dep:evdev"]
 [dependencies]
 defmt = { version = "0.3.8", optional = true }
 evdev = { version = "0.12.2", optional = true }
+num_enum = { version = "0.7.3", default-features = false }
 serde = { version = "1.0.210", features = ["derive"], default-features = false }
+
+[build-dependencies]
+proc-macro2 = "1.0.86"
+quote = "1.0.37"
+regex = "1.10.6"
+rust-format = { version = "0.3.4", features = ["pretty_please", "prettyplease"] }

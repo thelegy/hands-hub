@@ -2,7 +2,18 @@
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Debug)]
+include!(concat!(env!("OUT_DIR"), "/input_event_codes.rs"));
+
+#[derive(Copy, Clone, Debug)]
+#[cfg_attr(feature = "defmt", derive(defmt::Format))]
+pub enum InputEventKind {
+    SynEvent(Syn),
+    KeyEvent(Key),
+    RelEvent(RelAxis),
+    UnknownEvent,
+}
+
+#[derive(Copy, Clone, Serialize, Deserialize, Debug)]
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 pub struct InputEvent {
     pub type_: u16,
@@ -16,6 +27,14 @@ impl InputEvent {
         code: 0,
         value: 0,
     };
+    pub fn kind(&self) -> InputEventKind {
+        match EventType::from(self.type_) {
+            EventType::EvSyn => InputEventKind::SynEvent(self.code.into()),
+            EventType::EvKey => InputEventKind::KeyEvent(self.code.into()),
+            EventType::EvRel => InputEventKind::RelEvent(self.code.into()),
+            _ => InputEventKind::UnknownEvent,
+        }
+    }
 }
 
 #[cfg(feature = "evdev")]

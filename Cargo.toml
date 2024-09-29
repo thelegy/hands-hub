@@ -1,5 +1,12 @@
 [workspace]
+resolver = "2"
 members = [
   "hands-hub",
   "input_events",
 ]
+
+[workspace.metadata.crane]
+name = "hands-hub"
+
+[workspace.package]
+version = "0.1.0"

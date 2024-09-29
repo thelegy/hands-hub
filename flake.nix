@@ -29,6 +29,8 @@
         overlays = [(import rust-overlay)];
       };
 
+      INPUT_EVENT_CODES_PATH = "${pkgs.linuxHeaders}/include/linux/input-event-codes.h";
+
       selectToolchain = p:
         p.rust-bin.stable.latest.default.override {
           extensions = ["rust-analyzer" "rust-src"];
@@ -59,10 +61,12 @@
       hands-hub = craneLib.buildPackage (commonArgs
         // {
           inherit cargoArtifacts;
+
+          inherit INPUT_EVENT_CODES_PATH;
         });
 
       watch = pkgs.writeScriptBin "watch" ''
-        cargo watch --clear --delay .1 -x 'clippy' -x 'nextest run'
+        cargo watch --clear --delay .1 -x 'clippy --workspace' -x 'nextest run --workspace' -x 'doc --workspace'
       '';
     in {
       checks = {
@@ -73,6 +77,8 @@
 
       devShells.default = craneLib.devShell {
         checks = self.checks.${system};
+
+        inherit INPUT_EVENT_CODES_PATH;
 
         packages = [
           pkgs.cargo-nextest
